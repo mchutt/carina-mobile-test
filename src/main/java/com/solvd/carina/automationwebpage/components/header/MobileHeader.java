@@ -1,6 +1,7 @@
 package com.solvd.carina.automationwebpage.components.header;
 
 import com.solvd.carina.automationwebpage.pages.common.AccountDeletedPageBase;
+import com.solvd.carina.automationwebpage.pages.common.HomePageBase;
 import com.solvd.carina.automationwebpage.pages.common.LoginPageBase;
 import com.solvd.carina.automationwebpage.pages.common.ProductsPageBase;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -10,16 +11,16 @@ import org.openqa.selenium.support.FindBy;
 
 public class MobileHeader extends HeaderBase {
     @FindBy(xpath = "//*[@href='/delete_account']")
-    //@FindBy(xpath = "//android.widget.TextView[@text=' Products']")
     private ExtendedWebElement deleteAccountLink;
 
     @FindBy(xpath = "//*[@href='/products']")
-    //@FindBy(xpath = "//android.widget.TextView[@text=' Products']")
     private ExtendedWebElement productsLink;
 
     @FindBy(xpath = "//*[@href='/login']")
-    //@FindBy(xpath = "//android.widget.TextView[@text=' Signup / Login']")
     private ExtendedWebElement loginLink;
+
+    @FindBy(xpath = "//*[@href='/']")
+    private ExtendedWebElement homeLink;
 
 
     public MobileHeader(WebDriver driver, SearchContext searchContext) {
@@ -31,6 +32,12 @@ public class MobileHeader extends HeaderBase {
         productsLink.isElementPresent();
         productsLink.click();
         return initPage(driver, ProductsPageBase.class);
+    }
+
+    @Override
+    public HomePageBase openHomePage() {
+        homeLink.click();
+        return initPage(driver, HomePageBase.class);
     }
 
     @Override

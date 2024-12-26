@@ -1,11 +1,14 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
+import com.solvd.carina.automationwebpage.pages.common.CheckoutPageBase;
+import com.solvd.carina.automationwebpage.pages.common.PaymentPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class CheckoutPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = CheckoutPageBase.class)
+public class CheckoutPage extends CheckoutPageBase {
 
     @FindBy(xpath = "//a[text()='Place Order']")
     private ExtendedWebElement placeOrderButton;
@@ -14,9 +17,9 @@ public class CheckoutPage extends AbstractPage {
         super(driver);
     }
 
-    public PaymentPage clickOnPlaceOrderButton() {
+    public PaymentPageBase clickOnPlaceOrderButton() {
         placeOrderButton.scrollTo();
         placeOrderButton.click();
-        return new PaymentPage(driver);
+        return initPage(driver, PaymentPageBase.class);
     }
 }

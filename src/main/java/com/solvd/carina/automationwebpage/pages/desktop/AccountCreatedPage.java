@@ -1,11 +1,13 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
+import com.solvd.carina.automationwebpage.pages.common.AccountCreatedPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class AccountCreatedPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = AccountCreatedPageBase.class)
+public class AccountCreatedPage extends AccountCreatedPageBase {
 
     @FindBy(css = "h2[data-qa='account-created']")
     private ExtendedWebElement accountCreatedMessage;

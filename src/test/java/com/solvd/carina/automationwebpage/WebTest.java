@@ -11,6 +11,7 @@ import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -19,6 +20,14 @@ import static com.solvd.carina.automationwebpage.constants.UserConstants.*;
 
 
 public class WebTest extends AbstractTest {
+
+
+    private String deviceType = "";
+
+    @BeforeClass
+    public void getDeviceType(){
+        deviceType = getDevice(getDriver()).getType();
+    }
 
 
     @Test
@@ -119,12 +128,9 @@ public class WebTest extends AbstractTest {
         LoginFormBase loginForm = homePage.getHeader().openLoginPage().getLoginForm();
         loginForm.login(USER_EMAIL, USER_PASSWORD);
 
-        // TODO: Close chrome-native modal
-        MobileContextUtils mobileContextUtils = new MobileContextUtils();
-        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
-        AndroidChangePasswordAlert alert = new AndroidChangePasswordAlert(getDriver());
-        alert.clickOnOkButton();
-        mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
+        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
+            closeAndroidNativeModal();
+        }
 
         boolean isloggedMessageDisplayed = homePage.getHeader().isLoggedMessagePresent();
         Assert.assertTrue(isloggedMessageDisplayed, "The 'logged in user' message is not displayed after login. ");
@@ -154,6 +160,8 @@ public class WebTest extends AbstractTest {
 
     }
 
+
+
     @Test
     @MethodOwner(owner = "mchutt")
     public void createAccountAndRemoveAccountTest() {
@@ -176,12 +184,9 @@ public class WebTest extends AbstractTest {
                 .typeMobilePhone(NEW_USER_MOBILE_NUMBER)
                 .clickOnSubmitButton();
 
-        // TODO: Close chrome-native modal
-        MobileContextUtils mobileContextUtils = new MobileContextUtils();
-        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
-        AndroidChangePasswordAlert alert = new AndroidChangePasswordAlert(getDriver());
-        alert.clickOnOkButton();
-        mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
+        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
+            closeAndroidNativeModal();
+        }
 
         Assert.assertTrue(accountCreatedPage.isAccountCreatedMessageVisible(), "The message 'Account Created!' is not visible!");
         accountCreatedPage.clickOnContinueButton();
@@ -193,5 +198,14 @@ public class WebTest extends AbstractTest {
         boolean isLoggedMessagePresent = homePage.getHeader().isLoggedMessagePresent();
         Assert.assertFalse(isLoggedMessagePresent, "The logged message should not be present");
 
+    }
+
+    private void closeAndroidNativeModal() {
+        // Close chrome-native modal
+        MobileContextUtils mobileContextUtils = new MobileContextUtils();
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
+        AndroidChangePasswordAlert alert = new AndroidChangePasswordAlert(getDriver());
+        alert.clickOnOkButton();
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
     }
 }

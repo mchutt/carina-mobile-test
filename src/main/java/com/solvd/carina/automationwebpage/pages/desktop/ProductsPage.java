@@ -1,14 +1,16 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
 import com.solvd.carina.automationwebpage.components.product.ProductCardComponent;
+import com.solvd.carina.automationwebpage.pages.common.ProductsPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class ProductsPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = ProductsPageBase.class)
+public class ProductsPage extends ProductsPageBase {
 
     @FindBy(css = ".features_items .col-sm-4")
     private List<ProductCardComponent> productList;

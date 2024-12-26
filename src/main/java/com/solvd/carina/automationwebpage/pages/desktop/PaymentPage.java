@@ -1,11 +1,12 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
+import com.solvd.carina.automationwebpage.pages.common.PaymentPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-
-public class PaymentPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = PaymentPageBase.class)
+public class PaymentPage extends PaymentPageBase {
 
     @FindBy(xpath = "//input[@name='name_on_card']")
     private ExtendedWebElement nameOnCardInput;

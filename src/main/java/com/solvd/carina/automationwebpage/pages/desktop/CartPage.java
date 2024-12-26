@@ -1,14 +1,17 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
 import com.solvd.carina.automationwebpage.components.product.ProductInCartComponent;
+import com.solvd.carina.automationwebpage.pages.common.CartPageBase;
+import com.solvd.carina.automationwebpage.pages.common.CheckoutPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class CartPage extends AbstractPage {
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = CartPageBase.class)
+public class CartPage extends CartPageBase {
 
     @FindBy(xpath = "//tbody//tr")
     private List<ProductInCartComponent> cartProductList;
@@ -27,9 +30,9 @@ public class CartPage extends AbstractPage {
         return cartProductList;
     }
 
-    public CheckoutPage clickOnCheckoutButton() {
+    public CheckoutPageBase clickOnCheckoutButton() {
         proceedToCheckoutButton.click();
-        return new CheckoutPage(driver);
+        return initPage(driver, CheckoutPageBase.class);
     }
 
     public boolean isEmptyCartMessageVisible(){
