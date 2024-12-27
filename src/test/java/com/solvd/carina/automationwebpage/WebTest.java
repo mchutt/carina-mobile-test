@@ -2,6 +2,7 @@ package com.solvd.carina.automationwebpage;
 
 import com.solvd.carina.automationwebpage.components.SignUpFormComponent;
 import com.solvd.carina.automationwebpage.components.alert.AndroidChangePasswordAlert;
+import com.solvd.carina.automationwebpage.components.alert.AndroidDownloadInvoicePopup;
 import com.solvd.carina.automationwebpage.components.login.LoginFormBase;
 import com.solvd.carina.automationwebpage.components.product.ProductCardComponent;
 import com.solvd.carina.automationwebpage.components.product.ProductInCartComponent;
@@ -11,7 +12,6 @@ import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -20,15 +20,6 @@ import static com.solvd.carina.automationwebpage.constants.UserConstants.*;
 
 
 public class WebTest extends AbstractTest {
-
-
-    private String deviceType = "";
-
-    @BeforeClass
-    public void getDeviceType(){
-        deviceType = getDevice(getDriver()).getType();
-    }
-
 
     @Test
     @MethodOwner(owner = "mchutt")
@@ -128,6 +119,7 @@ public class WebTest extends AbstractTest {
         LoginFormBase loginForm = homePage.getHeader().openLoginPage().getLoginForm();
         loginForm.login(USER_EMAIL, USER_PASSWORD);
 
+        String deviceType = getDevice(getDriver()).getType();
         if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
             closeAndroidNativeModal();
         }
@@ -157,9 +149,14 @@ public class WebTest extends AbstractTest {
 
         boolean confirmedOrder = paymentDonePage.isConfirmedOrderMessageDisplayed();
         Assert.assertTrue(confirmedOrder, "The order confirmation message is not displayed. ");
+        paymentDonePage.clickOnDownloadInvoice();
+
+        //change context and close native modal
+        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
+            closeAndroidNativePopup();
+        }
 
     }
-
 
 
     @Test
@@ -184,6 +181,7 @@ public class WebTest extends AbstractTest {
                 .typeMobilePhone(NEW_USER_MOBILE_NUMBER)
                 .clickOnSubmitButton();
 
+        String deviceType = getDevice(getDriver()).getType();
         if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
             closeAndroidNativeModal();
         }
@@ -204,8 +202,22 @@ public class WebTest extends AbstractTest {
         // Close chrome-native modal
         MobileContextUtils mobileContextUtils = new MobileContextUtils();
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
+
         AndroidChangePasswordAlert alert = new AndroidChangePasswordAlert(getDriver());
         alert.clickOnOkButton();
+
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
+    }
+
+
+    private void closeAndroidNativePopup() {
+        MobileContextUtils mobileContextUtils = new MobileContextUtils();
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
+
+        AndroidDownloadInvoicePopup popup = new AndroidDownloadInvoicePopup(getDriver());
+        popup.clickOnShowAgainCheckBox();
+        popup.clickOnDownload();
+
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
     }
 }

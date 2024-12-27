@@ -1,6 +1,5 @@
 package com.solvd.carina.automationwebpage.pages.common;
 
-import com.solvd.carina.automationwebpage.pages.desktop.PaymentDonePage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;

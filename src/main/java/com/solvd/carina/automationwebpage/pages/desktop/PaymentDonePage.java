@@ -16,7 +16,13 @@ public class PaymentDonePage extends PaymentDonePageBase {
         super(driver);
     }
 
+    @Override
     public boolean isConfirmedOrderMessageDisplayed() {
         return confirmedOrderMessage.isElementPresent();
+    }
+
+    @Override
+    public void clickOnDownloadInvoice() {
+        throw new RuntimeException("Method not implemented");
     }
 }
