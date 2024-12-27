@@ -9,6 +9,9 @@ import org.openqa.selenium.support.FindBy;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = AccountDeletedPageBase.class)
 public class AccountDeletedPage extends AccountDeletedPageBase {
 
+    @FindBy(css = "a[data-qa='continue-button']")
+    private ExtendedWebElement continueButton;
+
     @FindBy(css = "h2[data-qa='account-deleted']")
     private ExtendedWebElement accountDeletedMessage;
 
@@ -20,6 +23,11 @@ public class AccountDeletedPage extends AccountDeletedPageBase {
     public boolean isAccountDeletedMessageVisible()  {
         accountDeletedMessage.scrollTo();
         return accountDeletedMessage.isVisible();
+    }
+
+    @Override
+    public void clickOnContinueButton() {
+        continueButton.click();
     }
 
 }

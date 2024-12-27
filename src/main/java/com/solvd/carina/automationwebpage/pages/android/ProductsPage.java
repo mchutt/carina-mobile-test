@@ -31,26 +31,31 @@ public class ProductsPage extends ProductsPageBase {
         super(driver);
     }
 
+    @Override
     public void typeTextInSearchInput(String text) {
         searchInput.scrollTo();
         searchInput.type(text);
     }
 
+    @Override
     public void clickOnSubmitSearchButton() {
         searchInput.scrollTo();
         submitSearchButton.click();
     }
 
+    @Override
     public boolean isAllProductsTitleDisplayed() {
         searchInput.scrollTo();
         return allProductsTitle.isElementPresent();
     }
 
+    @Override
     public boolean isSearchedProductsTitleDisplayed() {
         searchInput.scrollTo();
         return searchedProductsTitle.isElementPresent();
     }
 
+    @Override
     public List<ProductCardComponent> getProducts() {
         searchInput.scrollTo();
         return productList;

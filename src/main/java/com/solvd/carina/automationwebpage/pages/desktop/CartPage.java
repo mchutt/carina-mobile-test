@@ -26,15 +26,18 @@ public class CartPage extends CartPageBase {
         super(driver);
     }
 
+    @Override
     public List<ProductInCartComponent> getAllProducts() {
         return cartProductList;
     }
 
+    @Override
     public CheckoutPageBase clickOnCheckoutButton() {
         proceedToCheckoutButton.click();
         return initPage(driver, CheckoutPageBase.class);
     }
 
+    @Override
     public boolean isEmptyCartMessageVisible(){
         return emptyCartMessage.isVisible();
     }

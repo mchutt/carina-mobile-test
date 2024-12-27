@@ -5,6 +5,7 @@ import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+
 @DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = PaymentPageBase.class)
 public class PaymentPage extends PaymentPageBase {
 
@@ -30,31 +31,37 @@ public class PaymentPage extends PaymentPageBase {
         super(driver);
     }
 
+    @Override
     public PaymentPage typeInNameOnCardInput(String text) {
         nameOnCardInput.type(text);
         return this;
     }
 
+    @Override
     public PaymentPage typeInCardNumberInput(String text) {
         cardNumberInput.type(text);
         return this;
     }
 
+    @Override
     public PaymentPage typeInCVCInput(String text) {
         cvcInput.type(text);
         return this;
     }
 
+    @Override
     public PaymentPage typeInExpirationMonthInput(String text) {
         expirationMonthInput.type(text);
         return this;
     }
 
+    @Override
     public PaymentPage typeInExpirationYearInput(String text) {
         expirationYearInput.type(text);
         return this;
     }
 
+    @Override
     public PaymentDonePage clickOnConfirmOrderButton() {
         confirmOrderbutton.scrollTo();
         confirmOrderbutton.click();

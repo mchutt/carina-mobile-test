@@ -17,6 +17,7 @@ public class HomePage extends HomePageBase {
         super(driver);
     }
 
+    @Override
     public HeaderBase getHeader() {
         return header;
     }

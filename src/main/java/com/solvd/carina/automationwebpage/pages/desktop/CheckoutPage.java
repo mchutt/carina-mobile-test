@@ -17,6 +17,7 @@ public class CheckoutPage extends CheckoutPageBase {
         super(driver);
     }
 
+    @Override
     public PaymentPageBase clickOnPlaceOrderButton() {
         placeOrderButton.scrollTo();
         placeOrderButton.click();

@@ -44,53 +44,63 @@ public class FullSignUpPage extends FullSignUpPageBase {
         super(driver);
     }
 
+    @Override
     public FullSignUpPage typePassword(String pass) {
         passwordInput.type(pass);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeFirstName(String firstName) {
         firstNameInput.isElementPresent();
         firstNameInput.type(firstName);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeLastName(String lastName) {
         lastNameInput.type(lastName);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeAddress(String address) {
         addressOneInput.type(address);
         return this;
     }
 
+    @Override
     public FullSignUpPage selectCountry(String country) {
         countrySelect.scrollTo();
         countrySelect.select(country);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeState(String state) {
         stateInput.type(state);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeCity(String city) {
         cityInput.type(city);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeZipCode(String zipCode) {
         zipcodeInput.type(zipCode);
         return this;
     }
 
+    @Override
     public FullSignUpPage typeMobilePhone(String mobileNumber) {
         mobileNumberInput.type(mobileNumber);
         return this;
     }
 
+    @Override
     public AccountCreatedPage clickOnSubmitButton() {
         submitButton.scrollTo();
         submitButton.click();

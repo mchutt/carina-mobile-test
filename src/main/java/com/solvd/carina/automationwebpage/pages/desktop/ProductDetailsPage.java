@@ -20,6 +20,7 @@ public class ProductDetailsPage extends ProductDetailsPageBase {
         super(driver);
     }
 
+    @Override
     public ProductDetailsAlertComponent clickOnAddToCartButton() {
         addToCartButton.click();
         return modal;

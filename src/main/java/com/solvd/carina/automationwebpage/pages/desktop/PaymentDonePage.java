@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 
 @DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = PaymentDonePageBase.class)
 public class PaymentDonePage extends PaymentDonePageBase {
+    @FindBy(xpath = "//a[text()='Download Invoice']")
+    private ExtendedWebElement downloadInvoceButton;
 
     @FindBy(xpath = "//p[text()='Congratulations! Your order has been confirmed!']")
     private ExtendedWebElement confirmedOrderMessage;
@@ -23,6 +25,6 @@ public class PaymentDonePage extends PaymentDonePageBase {
 
     @Override
     public void clickOnDownloadInvoice() {
-        throw new RuntimeException("Method not implemented");
+        downloadInvoceButton.click();
     }
 }
