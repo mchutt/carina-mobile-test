@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.login;
+package com.solvd.carina.automationwebpage.components.common;
 
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;

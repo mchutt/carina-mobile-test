@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.pages.android;
+package com.solvd.carina.automationwebpage.pages.ios;
 
 import com.solvd.carina.automationwebpage.components.common.ProductCardComponent;
 import com.solvd.carina.automationwebpage.pages.common.ProductsPageBase;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ProductsPageBase.class)
+@DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = ProductsPageBase.class)
 public class ProductsPage extends ProductsPageBase {
 
     @FindBy(css = ".features_items .col-sm-4")
@@ -57,7 +57,9 @@ public class ProductsPage extends ProductsPageBase {
 
     @Override
     public List<ProductCardComponent> getProducts() {
-//        searchInput.scrollTo();
+        waitUntil(driver1 ->
+                !productList.isEmpty() &&
+                        productList.stream().allMatch(ProductCardComponent::isUIObjectPresent), 15);
         return productList;
     }
 

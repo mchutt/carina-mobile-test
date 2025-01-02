@@ -1,7 +1,7 @@
 package com.solvd.carina.automationwebpage.pages.android;
 
-import com.solvd.carina.automationwebpage.components.header.HeaderBase;
-import com.solvd.carina.automationwebpage.components.header.MobileHeader;
+import com.solvd.carina.automationwebpage.components.common.HeaderBase;
+import com.solvd.carina.automationwebpage.components.common.MobileHeader;
 import com.solvd.carina.automationwebpage.pages.common.HomePageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import org.openqa.selenium.WebDriver;

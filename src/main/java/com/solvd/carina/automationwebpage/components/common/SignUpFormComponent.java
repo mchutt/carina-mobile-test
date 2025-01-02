@@ -1,7 +1,6 @@
-package com.solvd.carina.automationwebpage.components;
+package com.solvd.carina.automationwebpage.components.common;
 
 import com.solvd.carina.automationwebpage.pages.common.FullSignUpPageBase;
-import com.solvd.carina.automationwebpage.pages.desktop.FullSignUpPage;
 import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;

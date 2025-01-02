@@ -1,15 +1,18 @@
 package com.solvd.carina.automationwebpage;
 
-import com.solvd.carina.automationwebpage.components.SignUpFormComponent;
-import com.solvd.carina.automationwebpage.components.alert.AndroidChangePasswordAlert;
-import com.solvd.carina.automationwebpage.components.alert.AndroidDownloadInvoicePopup;
-import com.solvd.carina.automationwebpage.components.login.LoginFormBase;
-import com.solvd.carina.automationwebpage.components.product.ProductCardComponent;
-import com.solvd.carina.automationwebpage.components.product.ProductInCartComponent;
+import com.solvd.carina.automationwebpage.components.common.SignUpFormComponent;
+import com.solvd.carina.automationwebpage.components.android.AndroidChangePasswordAlert;
+import com.solvd.carina.automationwebpage.components.android.AndroidDownloadInvoicePopup;
+import com.solvd.carina.automationwebpage.components.ios.IOSDownloadInvoicePopup;
+import com.solvd.carina.automationwebpage.components.ios.IOSSavePasswordAlert;
+import com.solvd.carina.automationwebpage.components.common.LoginFormBase;
+import com.solvd.carina.automationwebpage.components.common.ProductCardComponent;
+import com.solvd.carina.automationwebpage.components.common.ProductInCartComponent;
 import com.solvd.carina.automationwebpage.pages.common.*;
 import com.solvd.carina.demo.utils.MobileContextUtils;
 import com.zebrunner.carina.core.AbstractTest;
 import com.zebrunner.carina.core.registrar.ownership.MethodOwner;
+import com.zebrunner.carina.webdriver.device.Device;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,21 +27,15 @@ public class WebTest extends AbstractTest {
     @Test
     @MethodOwner(owner = "mchutt")
     public void searchAProductTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
-
+        HomePageBase homePage = openHomePage();
 
         ProductsPageBase productsPage = homePage.getHeader().openProductsPage();
-        boolean isTitleDisplayed = productsPage.isAllProductsTitleDisplayed();
-        Assert.assertTrue(isTitleDisplayed, "The 'All Products' title is not displayed on the Products page.");
-
+        Assert.assertTrue(productsPage.isAllProductsTitleDisplayed(), "The 'All Products' title is not displayed on the Products page.");
 
         String searchQ = "top";
         productsPage.typeTextInSearchInput(searchQ);
         productsPage.clickOnSubmitSearchButton();
-        boolean searchedProductsTitleDisplayed = productsPage.isSearchedProductsTitleDisplayed();
-        Assert.assertTrue(searchedProductsTitleDisplayed, "The 'Searched Products' title is not displayed on the Products page.");
+        Assert.assertTrue(productsPage.isSearchedProductsTitleDisplayed(), "The 'Searched Products' title is not displayed on the Products page.");
 
 
         List<ProductCardComponent> products = productsPage.getProducts();
@@ -54,86 +51,51 @@ public class WebTest extends AbstractTest {
     @Test
     @MethodOwner(owner = "mchutt")
     public void registerUserWithAnExistingEmailTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
-
+        HomePageBase homePage = openHomePage();
 
         SignUpFormComponent form = homePage.getHeader().openLoginPage().getSignUpForm();
-        boolean newUserSignupMessageVisible = form.isNewUserSignupMessageVisible();
-        Assert.assertTrue(newUserSignupMessageVisible, "The 'New user signup' message is not Visible! ");
-        form.signUp("Pepe", "pepe@pepe.com");
+        Assert.assertTrue(form.isNewUserSignupMessageVisible(), "The 'New user signup' message is not Visible! ");
+        form.signUp("Name", USER_EMAIL);
 
-        boolean isErrorMessageVisible = form.isErrorMessageVisible();
-        Assert.assertTrue(isErrorMessageVisible, "The error 'Email Address already exist!' message is not visible. ");
+        Assert.assertTrue(form.isErrorMessageVisible(), "The error 'Email Address already exist!' message is not visible. ");
     }
 
     @Test
     @MethodOwner(owner = "mchutt")
     public void loginWithAnIncorrectEmailAndPasswordTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-            homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
+        HomePageBase homePage = openHomePage();
 
-
-        LoginFormBase loginForm = homePage.getHeader().openLoginPage().getLoginForm();
-        boolean loginToYourAccountMessageVisible = loginForm.isLoginToYourAccountMessageVisible();
-        Assert.assertTrue(loginToYourAccountMessageVisible, "The 'Login to your account' message is not visible! ");
-        loginForm.login("pepe@pepe.com", "Incorrect Pass");
-
-        boolean isErrorMessageVisible = loginForm.isErrorMessageVisible();
-        Assert.assertTrue(isErrorMessageVisible, "The error message for incorrect login credentials is not displayed. ");
+        //Login
+        LoginFormBase loginForm = login(homePage, "pepe@pepe.com", "sdfasfdsfdsadfsdf");
+        Assert.assertTrue(loginForm.isErrorMessageVisible(), "The error message for incorrect login credentials is not displayed. ");
     }
 
     @Test
     @MethodOwner(owner = "mchutt")
     public void addProductToTheCartTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
+        HomePageBase homePage = openHomePage();
 
+        CartPageBase cartPage = addAProductToTheCart(homePage);
 
-        ProductsPageBase productsPage = homePage.getHeader().openProductsPage();
-        ProductCardComponent productCardComponent = productsPage.getProducts().get(0);
-        ProductDetailsPageBase productDetailsPage = productCardComponent.openProductDetails();
-
-        CartPageBase cartPage = productDetailsPage.clickOnAddToCartButton().openCartPage();
-
-
-        Assert.assertFalse(cartPage.getAllProducts().isEmpty(), "The cart is empty. ");
-
-        cartPage.getAllProducts()
-                .forEach(ProductInCartComponent::clickOnDeleteProductButton);
+        //Remove products form cart
+        cartPage.getAllProducts().forEach(ProductInCartComponent::clickOnDeleteProductButton);
         Assert.assertTrue(cartPage.isEmptyCartMessageVisible(), "The cart is NOT empty. ");
     }
 
     @Test
     @MethodOwner(owner = "mchutt")
     public void checkoutTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
-
+        HomePageBase homePage = openHomePage();
 
         //Login
-        LoginFormBase loginForm = homePage.getHeader().openLoginPage().getLoginForm();
-        loginForm.login(USER_EMAIL, USER_PASSWORD);
+        login(homePage, USER_EMAIL, USER_PASSWORD);
+        Assert.assertTrue(homePage.getHeader().isLoggedMessagePresent(), "The 'logged in user' message is not displayed after login. ");
 
-        String deviceType = getDevice(getDriver()).getType();
-        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
-            closeAndroidNativeModal();
-        }
+        Device device = getDevice(getDriver());
+        closeNativeModal(device);
 
-        boolean isloggedMessageDisplayed = homePage.getHeader().isLoggedMessagePresent();
-        Assert.assertTrue(isloggedMessageDisplayed, "The 'logged in user' message is not displayed after login. ");
-
-        //Add product to cart
-        ProductsPageBase productsPage = homePage.getHeader().openProductsPage();
-        ProductCardComponent productCardComponent = productsPage.getProducts().get(0);
-        ProductDetailsPageBase productDetailsPage = productCardComponent.openProductDetails();
-        CartPageBase cartPage = productDetailsPage.clickOnAddToCartButton().openCartPage();
-
-        Assert.assertFalse(cartPage.getAllProducts().isEmpty(), "The cart is empty after adding a product. ");
+        //Add product to cart and open cart page
+        CartPageBase cartPage = addAProductToTheCart(homePage);
 
         CheckoutPageBase checkoutPage = cartPage.clickOnCheckoutButton();
 
@@ -145,26 +107,17 @@ public class WebTest extends AbstractTest {
                 .typeInExpirationYearInput(USER_CARD_YEAR)
                 .clickOnConfirmOrderButton();
 
-
-
-        boolean confirmedOrder = paymentDonePage.isConfirmedOrderMessageDisplayed();
-        Assert.assertTrue(confirmedOrder, "The order confirmation message is not displayed. ");
+        Assert.assertTrue(paymentDonePage.isConfirmedOrderMessageDisplayed(), "The order confirmation message is not displayed. ");
         paymentDonePage.clickOnDownloadInvoice();
 
-        //change context and close native modal
-        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
-            closeAndroidNativePopup();
-        }
-
+        closeNativePopup(device);
     }
 
 
     @Test
     @MethodOwner(owner = "mchutt")
     public void createAccountAndRemoveAccountTest() {
-        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
-        homePage.open();
-        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
+        HomePageBase homePage = openHomePage();
 
         SignUpFormComponent form = homePage.getHeader().openLoginPage().getSignUpForm();
         form.signUp(NEW_USER_NAME, NEW_USER_EMAIL);
@@ -181,25 +134,71 @@ public class WebTest extends AbstractTest {
                 .typeMobilePhone(NEW_USER_MOBILE_NUMBER)
                 .clickOnSubmitButton();
 
-        String deviceType = getDevice(getDriver()).getType();
-        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")){
-            closeAndroidNativeModal();
-        }
-
         Assert.assertTrue(accountCreatedPage.isAccountCreatedMessageVisible(), "The message 'Account Created!' is not visible!");
+
+        Device device = getDevice(getDriver());
+        closeNativeModal(device);
+
         accountCreatedPage.clickOnContinueButton();
 
         AccountDeletedPageBase accountDeletedPage = homePage.getHeader().deleteAccount();
         Assert.assertTrue(accountDeletedPage.isAccountDeletedMessageVisible(), "The message 'Account Deleted!' is not visible");
         accountDeletedPage.clickOnContinueButton();
 
-        boolean isLoggedMessagePresent = homePage.getHeader().isLoggedMessagePresent();
-        Assert.assertFalse(isLoggedMessagePresent, "The logged message should not be present");
+        Assert.assertFalse(homePage.getHeader().isLoggedMessagePresent(), "The logged message should not be present");
 
     }
 
+
+    private HomePageBase openHomePage() {
+        HomePageBase homePage = initPage(getDriver(), HomePageBase.class);
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened!");
+        return homePage;
+    }
+
+    private LoginFormBase login(HomePageBase homePage, String email, String pass) {
+        LoginFormBase loginForm = homePage.getHeader().openLoginPage().getLoginForm();
+        Assert.assertTrue(loginForm.isLoginToYourAccountMessageVisible(),
+                "Login to your account message is not visible");
+        loginForm.login(email, pass);
+        return loginForm;
+    }
+
+
+    private static CartPageBase addAProductToTheCart(HomePageBase homePage) {
+        ProductsPageBase productsPage = homePage.getHeader().openProductsPage();
+        ProductDetailsPageBase productDetailsPage = productsPage.getProducts().get(0).openProductDetails();
+        CartPageBase cartPage = productDetailsPage.clickOnAddToCartButton().openCartPage();
+        Assert.assertFalse(cartPage.getAllProducts().isEmpty(), "The cart is empty. ");
+        return cartPage;
+    }
+
+    private void closeNativeModal(Device device) {
+        String deviceType = device.getType();
+        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")) {
+            if (StringUtils.equalsIgnoreCase(device.getCapabilities().getPlatformName().toString(), "android")) {
+                closeAndroidNativeModal();
+            }
+            if (StringUtils.equalsIgnoreCase(device.getCapabilities().getPlatformName().toString(), "ios")) {
+                closeIOSNativeModal();
+            }
+        }
+    }
+
+    private void closeNativePopup(Device device) {
+        String deviceType = device.getType();
+        if (StringUtils.isNoneEmpty(deviceType) && deviceType.equals("phone")) {
+            if (StringUtils.equalsIgnoreCase(device.getCapabilities().getPlatformName().toString(), "android")) {
+                androidDownloadInvoice();
+            }
+            if (StringUtils.equalsIgnoreCase(device.getCapabilities().getPlatformName().toString(), "ios")) {
+                iOSDownloadInvoice();
+            }
+        }
+    }
+
     private void closeAndroidNativeModal() {
-        // Close chrome-native modal
         MobileContextUtils mobileContextUtils = new MobileContextUtils();
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
 
@@ -209,8 +208,17 @@ public class WebTest extends AbstractTest {
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
     }
 
+    private void closeIOSNativeModal() {
+        MobileContextUtils mobileContextUtils = new MobileContextUtils();
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
 
-    private void closeAndroidNativePopup() {
+        IOSSavePasswordAlert alert = new IOSSavePasswordAlert(getDriver());
+        alert.clickOnNotNowButton();
+
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
+    }
+
+    private void androidDownloadInvoice() {
         MobileContextUtils mobileContextUtils = new MobileContextUtils();
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
 
@@ -219,5 +227,15 @@ public class WebTest extends AbstractTest {
         popup.clickOnDownload();
 
         mobileContextUtils.switchMobileContext(MobileContextUtils.View.BROWSER);
+    }
+
+    private void iOSDownloadInvoice() {
+        MobileContextUtils mobileContextUtils = new MobileContextUtils();
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.NATIVE);
+
+        IOSDownloadInvoicePopup popup = new IOSDownloadInvoicePopup(getDriver());
+        popup.clickOnDownLoadButton();
+
+        mobileContextUtils.switchMobileContext(MobileContextUtils.View.WEB_BROWSER);
     }
 }

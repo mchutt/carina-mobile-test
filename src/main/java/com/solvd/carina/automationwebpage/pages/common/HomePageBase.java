@@ -1,6 +1,6 @@
 package com.solvd.carina.automationwebpage.pages.common;
 
-import com.solvd.carina.automationwebpage.components.header.HeaderBase;
+import com.solvd.carina.automationwebpage.components.common.HeaderBase;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 

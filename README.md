@@ -1,3 +1,8 @@
+### command to start appium: 
+* appium --allow-insecure chromedriver_autodownload --log-level info
+
+
+
 ### Getting started
 * Install and configure JDK 11
 * Install and configure [Apache Maven 3.6.0+](http://maven.apache.org/)

@@ -1,8 +1,8 @@
 package com.solvd.carina.automationwebpage.pages.android;
 
-import com.solvd.carina.automationwebpage.components.SignUpFormComponent;
-import com.solvd.carina.automationwebpage.components.login.LoginFormBase;
-import com.solvd.carina.automationwebpage.components.login.MobileLoginFormComponent;
+import com.solvd.carina.automationwebpage.components.common.SignUpFormComponent;
+import com.solvd.carina.automationwebpage.components.common.LoginFormBase;
+import com.solvd.carina.automationwebpage.components.common.MobileLoginFormComponent;
 import com.solvd.carina.automationwebpage.pages.common.LoginPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import org.openqa.selenium.WebDriver;

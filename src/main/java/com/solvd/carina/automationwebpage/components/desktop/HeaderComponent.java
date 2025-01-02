@@ -1,6 +1,7 @@
-package com.solvd.carina.automationwebpage.components.header;
+package com.solvd.carina.automationwebpage.components.desktop;
 
 
+import com.solvd.carina.automationwebpage.components.common.HeaderBase;
 import com.solvd.carina.automationwebpage.constants.LinkNames;
 import com.solvd.carina.automationwebpage.pages.common.AccountDeletedPageBase;
 import com.solvd.carina.automationwebpage.pages.common.HomePageBase;
@@ -46,16 +47,19 @@ public class HeaderComponent extends HeaderBase {
         return initPage(driver, HomePageBase.class);
     }
 
+    @Override
     public LoginPageBase openLoginPage() {
         clickOnLink(LinkNames.LOGIN);
         return initPage(driver, LoginPageBase.class);
     }
 
-    public AccountDeletedPageBase deleteAccount(){
+    @Override
+    public AccountDeletedPageBase deleteAccount() {
         clickOnLink(LinkNames.DELETE_ACCOUNT);
         return initPage(driver, AccountDeletedPageBase.class);
     }
 
+    @Override
     public boolean isLoggedMessagePresent() {
         return loggedMessage.isElementPresent();
     }

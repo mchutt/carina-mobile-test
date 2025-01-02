@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.product;
+package com.solvd.carina.automationwebpage.components.common;
 
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;

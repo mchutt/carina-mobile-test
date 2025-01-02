@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.alert;
+package com.solvd.carina.automationwebpage.components.android;
 
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;

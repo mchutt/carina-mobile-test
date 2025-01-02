@@ -1,7 +1,7 @@
 package com.solvd.carina.automationwebpage.pages.common;
 
-import com.solvd.carina.automationwebpage.components.SignUpFormComponent;
-import com.solvd.carina.automationwebpage.components.login.LoginFormBase;
+import com.solvd.carina.automationwebpage.components.common.SignUpFormComponent;
+import com.solvd.carina.automationwebpage.components.common.LoginFormBase;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 

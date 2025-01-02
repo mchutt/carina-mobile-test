@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.header;
+package com.solvd.carina.automationwebpage.components.common;
 
 import com.solvd.carina.automationwebpage.pages.common.AccountDeletedPageBase;
 import com.solvd.carina.automationwebpage.pages.common.HomePageBase;
@@ -10,6 +10,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class MobileHeader extends HeaderBase {
+
+    @FindBy(xpath = ".//li/a[text()=' Logged in as ']")
+    private ExtendedWebElement loggedMessage;
+
     @FindBy(xpath = "//*[@href='/delete_account']")
     private ExtendedWebElement deleteAccountLink;
 
@@ -52,5 +56,10 @@ public class MobileHeader extends HeaderBase {
         deleteAccountLink.isElementPresent();
         deleteAccountLink.click();
         return initPage(driver, AccountDeletedPageBase.class);
+    }
+
+    @Override
+    public boolean isLoggedMessagePresent() {
+        return loggedMessage.isElementPresent();
     }
 }

@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.header;
+package com.solvd.carina.automationwebpage.components.common;
 
 
 import com.solvd.carina.automationwebpage.pages.common.AccountDeletedPageBase;
@@ -6,16 +6,11 @@ import com.solvd.carina.automationwebpage.pages.common.HomePageBase;
 import com.solvd.carina.automationwebpage.pages.common.LoginPageBase;
 import com.solvd.carina.automationwebpage.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.FindBy;
 
 public abstract class HeaderBase extends AbstractUIObject implements ICustomTypePageFactory {
-
-    @FindBy(xpath = ".//li/a[text()=' Logged in as ']")
-    private ExtendedWebElement loggedMessage;
 
     public HeaderBase(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -29,8 +24,6 @@ public abstract class HeaderBase extends AbstractUIObject implements ICustomType
 
     public abstract AccountDeletedPageBase deleteAccount();
 
-    public boolean isLoggedMessagePresent() {
-        return loggedMessage.isElementPresent();
-    }
+    public abstract boolean isLoggedMessagePresent();
 
 }

@@ -1,6 +1,6 @@
 package com.solvd.carina.automationwebpage.pages.desktop;
 
-import com.solvd.carina.automationwebpage.components.product.ProductCardComponent;
+import com.solvd.carina.automationwebpage.components.common.ProductCardComponent;
 import com.solvd.carina.automationwebpage.pages.common.ProductsPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;

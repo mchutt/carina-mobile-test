@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.components.product;
+package com.solvd.carina.automationwebpage.components.common;
 
 import com.solvd.carina.automationwebpage.pages.common.ProductDetailsPageBase;
 import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
@@ -24,7 +24,6 @@ public class ProductCardComponent extends AbstractUIObject implements ICustomTyp
     }
 
     public ProductDetailsPageBase openProductDetails() {
-        viewProductDetailsButton.scrollTo();
         viewProductDetailsButton.click();
         return initPage(driver, ProductDetailsPageBase.class);
     }

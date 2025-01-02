@@ -1,4 +1,4 @@
-package com.solvd.carina.automationwebpage.pages.android;
+package com.solvd.carina.automationwebpage.pages.ios;
 
 import com.solvd.carina.automationwebpage.components.common.ProductInCartComponent;
 import com.solvd.carina.automationwebpage.pages.common.CartPageBase;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = CartPageBase.class)
+@DeviceType(pageType = DeviceType.Type.IOS_PHONE, parentClass = CartPageBase.class)
 public class CartPage extends CartPageBase {
 
     @FindBy(xpath = "//tbody//tr")
@@ -28,6 +28,7 @@ public class CartPage extends CartPageBase {
 
     @Override
     public List<ProductInCartComponent> getAllProducts() {
+        waitUntil(driver1 -> !cartProductList.isEmpty(), 15);
         return cartProductList;
     }
 
@@ -38,7 +39,7 @@ public class CartPage extends CartPageBase {
     }
 
     @Override
-    public boolean isEmptyCartMessageVisible(){
+    public boolean isEmptyCartMessageVisible() {
         return emptyCartMessage.isVisible();
     }
 }
